@@ -1,5 +1,9 @@
 import { type NextRequest, NextResponse } from "next/server"
 
+export async function GET() {
+  return NextResponse.json({ message: "IPFS upload endpoint" })
+}
+
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData()

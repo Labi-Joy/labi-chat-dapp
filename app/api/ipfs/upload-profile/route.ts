@@ -7,6 +7,10 @@ export interface ProfileData {
   createdAt: number
 }
 
+export async function GET() {
+  return NextResponse.json({ message: "IPFS profile upload endpoint" })
+}
+
 export async function POST(request: NextRequest) {
   try {
     const profileData: ProfileData = await request.json()
