@@ -9,8 +9,37 @@ import { Button } from "@/components/ui/button"
 import { useUserDomains, useHasProfile } from "@/lib/web3-hooks"
 import { ArrowLeft, User } from "lucide-react"
 import Link from "next/link"
+import { Suspense, useEffect, useState } from "react"
 
 export default function ProfilePage() {
+  const [mounted, setMounted] = useState(false)
+  
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+        <div className="container mx-auto px-4 py-16">
+          <Card className="max-w-md mx-auto">
+            <CardHeader className="text-center">
+              <CardTitle>Loading...</CardTitle>
+              <CardDescription>Please wait while we load your profile</CardDescription>
+            </CardHeader>
+            <CardContent className="text-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    )
+  }
+
+  return <ProfileContent />
+}
+
+function ProfileContent() {
   const { address, isConnected } = useAccount()
   const { data: userDomains } = useUserDomains(address)
   const { data: hasProfile } = useHasProfile(address)
@@ -123,3 +152,4 @@ export default function ProfilePage() {
     </div>
   )
 }
+
